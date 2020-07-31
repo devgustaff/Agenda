@@ -1,0 +1,15 @@
+<% if (errors.length > 0) { %>
+  <div class="container column msg danger">
+    <% errors.forEach((error) => { %>
+    <span><%= error %></span>
+    <% }); %>
+  </div>
+<% } %>
+
+<% if (success.length > 0) { %>
+  <div class="container column msg success">
+    <% success.forEach((sucess) => { %>
+    <span><%= sucess %></span>
+    <% }); %>
+  </div>
+<% } %>

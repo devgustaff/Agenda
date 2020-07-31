@@ -1,0 +1,30 @@
+<%- include("includes/header.ejs") %>
+<div class="msg-display">
+  <%- include("includes/messages.ejs") %>
+</div>
+<main class="content">
+  <div class="container space-b-class">
+    <div class="card">
+      <h2 class="title-main left">Faça seu cadastro</h2>
+      <div class="form">
+        <form action="/login/register" method="POST" id="form-register">
+          <input type="email" name="email" placeholder="Email" />
+          <input type="password" name="password" placeholder="Senha" />
+          <button type="submit" class="btn btn-secundary">Criar conta</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="title-main left">Entrar</h2>
+      <div class="form">
+        <form action="/login/login" method="POST" id="form-login">
+          <input type="email" name="email" placeholder="Email" />
+          <input type="password" name="password" placeholder="Senha" />
+          <button type="submit" class="btn btn-primary">Fazer login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<%- include("includes/footer.ejs") %>

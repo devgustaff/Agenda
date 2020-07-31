@@ -1,0 +1,49 @@
+<%- include("includes/header.ejs") %>
+<div class="msg-display">
+  <%- include("includes/messages.ejs") %>
+</div>
+<main class="content">
+  <div class="container space-b-class">
+    <div class="card">
+      <h2 class="title-main">Contato</h2>
+      <p class="center text-p">Crie ou edite seu contato abaixo.</p>
+      <div class="form">
+
+        <% if (contact._id) { %>
+          <form action="/contact/edit/<%= contact._id %>" method="POST">
+        <% } else { %>
+          <form action="/contact/register" method="POST">
+        <% } %>
+          <input
+            type="text"
+            name="name"
+            placeholder="Nome"
+            required
+            value="<%= contact.name %>"
+          />
+          <input
+            type="text"
+            name="lastname"
+            placeholder="Sobrenome"
+            value="<%= contact.lastname%>"
+          />
+          <input
+            type="text"
+            name="phone"
+            placeholder="Telefone"
+            required
+            value="<%= contact.phone %>"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="E-mail"
+            value="<%= contact.email %>"
+          />
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<%- include("includes/footer.ejs") %>
