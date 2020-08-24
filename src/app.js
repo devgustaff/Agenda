@@ -1,39 +1,43 @@
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const flash = require("connect-flash");
 const session = require("express-session");
 const mongoStore = require("connect-mongo")(session);
+const Connection = require("./models/Connection");
 const routes = require("./routers/routes");
 const localsVar = require("./middlewares/localsVar");
 const notFound = require("./middlewares/notFound");
 require("dotenv/config");
 
-mongoose.connect(
-  process.env.CONNECTION,
-  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
-  () => console.log("Connected")
-);
+class App {
+  constructor() {
+    this.connection = new Connection();
+    this.connection.connect();
+    this.app = express();
+    this.app.set("views", __dirname + "/views");
+    this.app.set("view engine", "ejs");
+    this.middlewares();
+  }
 
-app.set("views", __dirname + "/views");
-app.set("view engine", "ejs");
+  middlewares() {
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(express.static("public"));
+    this.app.use(
+      session({
+        secret: "woot",
+        resave: false,
+        saveUninitialized: true,
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-app.use(
-  session({
-    secret: "woot",
-    resave: false,
-    saveUninitialized: true,
-    
-    store: new mongoStore({
-      mongooseConnection: mongoose.connection,
-    }),
-  })
-);
-app.use(flash());
-app.use(localsVar);
-app.use(routes);
-app.use(notFound);
+        store: new mongoStore({
+          mongooseConnection: mongoose.connection,
+        }),
+      })
+    );
+    this.app.use(flash());
+    this.app.use(localsVar);
+    this.app.use(routes);
+    this.app.use(notFound);
+  }
+}
 
-module.exports = app;
+module.exports = new App().app;
